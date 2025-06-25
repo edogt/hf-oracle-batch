@@ -1,0 +1,35 @@
+/**
+ * Constraints: BATCH_ACTIVITY_EXECUTIONS
+ * Description: Database constraints for activity execution tracking.
+ *
+ * Author: Eduardo Gutiérrez Tapia (edogt@hotmail.com)
+ *
+ * Purpose:
+ *   - Ensure data integrity for activity execution records
+ *   - Maintain referential integrity with activities and chain executions
+ *   - Prevent orphaned execution records
+ *   - Validate the integrity of the execution state values
+ */
+
+-- Primary Key
+ALTER TABLE BATCH_ACTIVITY_EXECUTIONS ADD CONSTRAINT BATCH_ACTIVITY_EXECUTIONS_PK PRIMARY KEY (ID) ENABLE;
+
+-- Not Null Constraints
+ALTER TABLE BATCH_ACTIVITY_EXECUTIONS MODIFY (
+    ID NOT NULL ENABLE,
+    ACTIVITY_ID NOT NULL ENABLE,
+    CHAIN_EXECUTION_ID NOT NULL ENABLE
+);
+
+-- Foreign Key to BATCH_ACTIVITIES
+ALTER TABLE BATCH_ACTIVITY_EXECUTIONS ADD CONSTRAINT BATCH_ACTIVITY_EXECUTIONS_ACTIVITY_FK 
+    FOREIGN KEY (ACTIVITY_ID) REFERENCES BATCH_ACTIVITIES (ID) ENABLE;
+
+-- Foreign Key to BATCH_CHAIN_EXECUTIONS
+ALTER TABLE BATCH_ACTIVITY_EXECUTIONS ADD CONSTRAINT BATCH_ACTIVITY_EXECUTIONS_CHAIN_EXEC_FK 
+    FOREIGN KEY (CHAIN_EXECUTION_ID) REFERENCES BATCH_CHAIN_EXECUTIONS (ID) ENABLE;
+
+-- Check constraint for allowed STATE values
+ALTER TABLE BATCH_ACTIVITY_EXECUTIONS ADD CONSTRAINT BATCH_ACTIVITY_EXECUTIONS_STATE_CK
+    CHECK (STATE IN ('PENDING', 'QUEUED', 'RUNNING', 'FINISHED', 'ERROR', 'CANCELLED', 'TIMEOUT')) ENABLE;
+

@@ -1,0 +1,31 @@
+original-code/
+hf-setup/
+
+# Documentos de trabajo (movidos a hf-setup/work/)
+# Los archivos de trabajo ya están en hf-setup/work/ y hf-setup/ está ignorado
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+*.backup
+*.log
+*.out
+*.err
+
+# Archivos temporales
+temp_*
+*_temp
+*_tmp
+
+# Archivos de estado y reportes de trabajo
+ESTADO_DOCUMENTACION_SISTEMA.md
+INVENTARIO_DOCUMENTACION_*.md
+CRITERIOS_DOCUMENTACION_*.md
+RESUMEN_EJECUTIVO_*.md
+ARTICULO_LINKEDIN_*.md
+
+# Scripts de trabajo
+generar_estado_documentacion.py
+improvements_*.sql
+temp_*.sql 

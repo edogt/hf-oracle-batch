@@ -1,0 +1,337 @@
+// HF Oracle Batch - Database Schema
+// Generated from HF Oracle Batch system documentation
+// Author: Eduardo Gutiérrez Tapia (edogt@hotmail.com)
+
+// Companies - Core entity for multi-company support
+Table BATCH_COMPANIES {
+  id number [pk, increment]
+  name varchar2(100) [not null]
+  code varchar2(50) [not null, unique]
+  fiscal_id varchar2(30)
+  config varchar2(4000)
+  created_by varchar2(30)
+  created_date date
+  updated_by varchar2(30)
+  updated_date date
+  
+  indexes {
+    (code)
+  }
+  
+  Note: 'Core company master data for multi-company batch processing operations'
+}
+
+// Chains - Top-level workflow definitions
+Table BATCH_CHAINS {
+  id number [pk, increment]
+  name varchar2(100) [not null]
+  code varchar2(50) [not null, unique]
+  description varchar2(4000)
+  config varchar2(4000)
+  company_id number [ref: > BATCH_COMPANIES.id]
+  created_by varchar2(30)
+  created_date date
+  updated_by varchar2(30)
+  updated_date date
+  rules_set clob
+  
+  indexes {
+    (company_id)
+    (code)
+  }
+  
+  Note: 'Core entity defining batch execution chains and workflows'
+}
+
+// Processes - Process-level workflow components
+Table BATCH_PROCESSES {
+  id number [pk, increment]
+  name varchar2(100) [not null]
+  code varchar2(50) [not null, unique]
+  description varchar2(4000)
+  config varchar2(4000)
+  company_id number [ref: > BATCH_COMPANIES.id]
+  propagate_failed_state varchar2(3) [default: 'NO']
+  created_by varchar2(30)
+  created_date date
+  updated_by varchar2(30)
+  updated_date date
+  rules_set clob
+  
+  indexes {
+    (company_id)
+    (code)
+  }
+  
+  Note: 'Process-level workflow components that can contain multiple activities'
+}
+
+// Activities - Lowest-level executable units
+Table BATCH_ACTIVITIES {
+  id number [pk, increment]
+  name varchar2(100) [not null]
+  code varchar2(50) [not null, unique]
+  description varchar2(4000)
+  action varchar2(500) [not null]
+  company_id number [ref: > BATCH_COMPANIES.id]
+  config varchar2(4000)
+  state varchar2(10) [default: 'VALID']
+  propagate_failed_state varchar2(3) [default: 'NO']
+  created_by varchar2(30)
+  created_date date
+  updated_by varchar2(30)
+  updated_date date
+  
+  indexes {
+    (company_id)
+    (code)
+  }
+  
+  Note: 'Lowest-level executable units that perform actual work'
+}
+
+// Chain Processes - Relationship between chains and processes
+Table BATCH_CHAIN_PROCESSES {
+  id number(19,0) [pk, not null]
+  chain_id number(19,0) [ref: > BATCH_CHAINS.id, not null]
+  process_id number(19,0) [ref: > BATCH_PROCESSES.id, not null]
+  execution_order number(10,0)
+  comments varchar2(4000)
+  created_by varchar2(255)
+  created_date timestamp(6)
+  state varchar2(50)
+  updated_by varchar2(255)
+  updated_date timestamp(6)
+  
+  indexes {
+    (chain_id)
+    (process_id)
+  }
+  
+  Note: 'Defines the relationship between chains and processes with execution order'
+}
+
+// Process Activities - Relationship between processes and activities
+Table BATCH_PROCESS_ACTIVITIES {
+  id number(19,0) [pk, not null]
+  process_id number(19,0) [ref: > BATCH_PROCESSES.id, not null]
+  activity_id number(19,0) [ref: > BATCH_ACTIVITIES.id, not null]
+  execution_order number(10,0)
+  comments varchar2(4000)
+  created_by varchar2(255)
+  created_date timestamp(6)
+  state varchar2(50)
+  updated_by varchar2(255)
+  updated_date timestamp(6)
+  
+  indexes {
+    (process_id)
+    (activity_id)
+  }
+  
+  Note: 'Defines the association between processes and activities, including execution order and relationship context'
+}
+
+// Chain Executions - Execution tracking for chains
+Table BATCH_CHAIN_EXECUTIONS {
+  id number(19,0) [pk, not null]
+  start_time timestamp(6)
+  end_time timestamp(6)
+  comments varchar2(4000)
+  state varchar2(20)
+  chain_id number(19,0) [ref: > BATCH_CHAINS.id, not null]
+  execution_type varchar2(20)
+  created_by varchar2(255)
+  created_date timestamp(6)
+  updated_by varchar2(255)
+  updated_date timestamp(6)
+  
+  indexes {
+    (chain_id)
+    (start_time)
+    (state)
+  }
+  
+  Note: 'Tracks the execution of batch chains with timing and state information'
+}
+
+// Process Executions - Execution tracking for processes
+Table BATCH_PROCESS_EXECUTIONS {
+  id number [pk, not null]
+  process_id number [ref: > BATCH_PROCESSES.id]
+  execution_type varchar2(20)
+  execution_state varchar2(10)
+  start_time timestamp(6)
+  end_time timestamp(6)
+  comments varchar2(4000)
+  chain_exec_id number [ref: > BATCH_CHAIN_EXECUTIONS.id]
+  created_by varchar2(30)
+  created_date date
+  updated_by varchar2(30)
+  updated_date date
+  
+  indexes {
+    (process_id)
+    (chain_exec_id)
+    (start_time)
+  }
+  
+  Note: 'Tracks the execution lifecycle and history of individual batch processes'
+}
+
+// Activity Executions - Execution tracking for activities
+Table BATCH_ACTIVITY_EXECUTIONS {
+  id number [pk, increment]
+  activity_id number [ref: > BATCH_ACTIVITIES.id]
+  execution_type varchar2(20)
+  execution_state varchar2(10)
+  start_time timestamp(6)
+  end_time timestamp(6)
+  comments varchar2(4000)
+  process_exec_id number [ref: > BATCH_PROCESS_EXECUTIONS.id]
+  audit_info varchar2(4000)
+  process_activity_id number [ref: > BATCH_PROCESS_ACTIVITIES.id]
+  created_by varchar2(30)
+  created_date date
+  updated_by varchar2(30)
+  updated_date date
+  
+  indexes {
+    (activity_id)
+    (process_exec_id)
+    (start_time)
+  }
+  
+  Note: 'Tracks the execution lifecycle and history of individual batch activities'
+}
+
+// Activity Parameters - Parameter definitions for activities
+Table BATCH_ACTIVITY_PARAMETERS {
+  id number(19,0) [pk, not null]
+  activity_id number(19,0) [ref: > BATCH_ACTIVITIES.id, not null]
+  name varchar2(255)
+  type varchar2(50)
+  position number(10,0)
+  description varchar2(4000)
+  default_value varchar2(4000)
+  created_by varchar2(255)
+  created_date timestamp(6)
+  state varchar2(50)
+  updated_by varchar2(255)
+  updated_date timestamp(6)
+  
+  indexes {
+    (activity_id)
+  }
+  
+  Note: 'Defines parameter specifications for batch activities'
+}
+
+// Activity Execution Parameter Values - Parameter values during execution
+Table BATCH_ACTIV_EXEC_PARAM_VALUES {
+  id number [pk, not null]
+  activity_execution_id number [ref: > BATCH_ACTIVITY_EXECUTIONS.id]
+  activity_parameter_id number [ref: > BATCH_ACTIVITY_PARAMETERS.id]
+  value varchar2(500)
+  created_by varchar2(30)
+  created_date date
+  updated_by varchar2(30)
+  updated_date date
+  
+  indexes {
+    (activity_execution_id)
+    (activity_parameter_id)
+  }
+  
+  Note: 'Stores actual parameter values used during activity execution'
+}
+
+// Process Activity Parameter Values - Parameter values for process activities
+Table BATCH_PROC_ACTIV_PARAM_VALUES {
+  id number [pk, not null]
+  process_activity_id number [ref: > BATCH_PROCESS_ACTIVITIES.id]
+  activity_parameter_id number [ref: > BATCH_ACTIVITY_PARAMETERS.id]
+  value varchar2(500)
+  created_by varchar2(30)
+  created_date date
+  updated_by varchar2(30)
+  updated_date date
+  
+  indexes {
+    (process_activity_id)
+    (activity_parameter_id)
+  }
+  
+  Note: 'Stores parameter values for process-activity executions, enabling dynamic parameter injection'
+}
+
+// Activity Outputs - Output data from activity executions
+Table BATCH_ACTIVITY_OUTPUTS {
+  id number(19,0) [pk, not null]
+  activity_execution_id number(19,0) [ref: > BATCH_ACTIVITY_EXECUTIONS.id, not null]
+  output_key varchar2(255)
+  output_value clob
+  output_type varchar2(50)
+  comments varchar2(4000)
+  created_by varchar2(255)
+  created_date timestamp(6)
+  state varchar2(50)
+  updated_by varchar2(255)
+  updated_date timestamp(6)
+  
+  indexes {
+    (activity_execution_id)
+  }
+  
+  Note: 'Stores output data and results from batch activity executions'
+}
+
+// Company Parameters - Company-specific configuration parameters
+Table BATCH_COMPANY_PARAMETERS {
+  id number [pk, not null]
+  company_id number [ref: > BATCH_COMPANIES.id, not null]
+  param_key varchar2(100) [not null]
+  param_value varchar2(4000)
+  param_type varchar2(50)
+  comments varchar2(4000)
+  created_by varchar2(30)
+  created_date date
+  state varchar2(20)
+  updated_by varchar2(30)
+  updated_date date
+  
+  indexes {
+    (company_id)
+    (param_key)
+  }
+  
+  Note: 'Stores company-specific configuration parameters that control batch processing behavior'
+}
+
+// Simple Log - Comprehensive logging system
+Table BATCH_SIMPLE_LOG {
+  id number [pk, not null]
+  text varchar2(4000)
+  data clob
+  timestamp timestamp(6)
+  type varchar2(30)
+  activity_execution_id number [ref: > BATCH_ACTIVITY_EXECUTIONS.id]
+  process_execution_id number [ref: > BATCH_PROCESS_EXECUTIONS.id]
+  chain_execution_id number [ref: > BATCH_CHAIN_EXECUTIONS.id]
+  company_id number [ref: > BATCH_COMPANIES.id]
+  created_by varchar2(30)
+  created_date date
+  updated_by varchar2(30)
+  updated_date date
+  
+  indexes {
+    (timestamp)
+    (activity_execution_id)
+    (process_execution_id)
+    (chain_execution_id)
+    (company_id)
+    (type)
+  }
+  
+  Note: 'Application logging table for batch processes with comprehensive audit trail'
+} 

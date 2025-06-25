@@ -1,0 +1,25 @@
+/**
+ * Constraints: BATCH_CHAIN_PROCESSES
+ * Description: Defines database constraints for chain-process relationship records.
+ *
+ * Author: Eduardo Gutiérrez Tapia (edogt@hotmail.com)
+ *
+ * Purpose:
+ *   - Ensure data integrity for chain-process relationships.
+ *   - Maintain referential integrity with BATCH_CHAINS and BATCH_PROCESSES.
+ *   - Prevent orphaned relationship records.
+ */
+
+-- Primary Key
+ALTER TABLE BATCH_CHAIN_PROCESSES ADD CONSTRAINT BATCH_CHAIN_PROCESSES_PK PRIMARY KEY (ID);
+
+-- Not Null Constraints
+ALTER TABLE BATCH_CHAIN_PROCESSES MODIFY ID NOT NULL;
+ALTER TABLE BATCH_CHAIN_PROCESSES MODIFY CHAIN_ID NOT NULL;
+ALTER TABLE BATCH_CHAIN_PROCESSES MODIFY PROCESS_ID NOT NULL;
+
+-- Foreign Keys
+ALTER TABLE BATCH_CHAIN_PROCESSES ADD CONSTRAINT BATCH_CHAIN_PROCESSES_CHAIN_FK 
+    FOREIGN KEY (CHAIN_ID) REFERENCES BATCH_CHAINS (ID);
+ALTER TABLE BATCH_CHAIN_PROCESSES ADD CONSTRAINT BATCH_CHAIN_PROCESSES_PROCESS_FK 
+    FOREIGN KEY (PROCESS_ID) REFERENCES BATCH_PROCESSES (ID); 
