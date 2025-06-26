@@ -2,6 +2,8 @@
 
 > **Para versión en inglés, ver [README.md](README.md)**
 
+**HF** significa **HoldFast** - representando la capacidad del sistema para mantener y gestionar procesos batch de manera segura con confiabilidad y consistencia.
+
 Sistema integral de gestión de procesos batch basado en Oracle diseñado para orquestar, monitorear y rastrear flujos de trabajo complejos de procesamiento de datos. HF proporciona un marco robusto para gestionar cadenas de procesos, actividades y ejecuciones con trazabilidad completa y manejo de errores.
 
 ## 📋 ¿Qué es HF Oracle Batch?
