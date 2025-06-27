@@ -264,6 +264,518 @@ For issues or questions related to this package:
 
 **PCK_BATCH_SIM** - Professional simulation capabilities for batch processing testing 🚀 
 
+## 🏢 **Ejemplos Realistas de Uso Empresarial / Realistic Business Usage Examples**
+
+### 🇪🇸 **Flujo Completo del Sistema: Cierre de Cajas**
+
+#### **Paso 1: Identificar Actividades (Procesos PL/SQL)**
+```sql
+-- Actividades típicas para cierre de cajas
+-- 1. Validación de transacciones pendientes
+-- 2. Cálculo de totales por caja
+-- 3. Conciliación bancaria
+-- 4. Generación de reportes
+-- 5. Envío de notificaciones
+```
+
+#### **Paso 2: Definir Actividades en el Sistema**
+```sql
+-- Definir actividades con sus acciones PL/SQL
+BEGIN
+  -- Actividad 1: Validar transacciones pendientes
+  INSERT INTO BATCH_ACTIVITIES (
+    ACTIVITY_NAME, 
+    DESCRIPTION, 
+    ACTION,
+    IS_ACTIVE
+  ) VALUES (
+    'VALIDAR_TRANSACCIONES',
+    'Validar transacciones pendientes de cierre',
+    'PCK_BATCH_SIM.activity(''VALIDAR_TRANSACCIONES'', 30);',
+    'Y'
+  );
+
+  -- Actividad 2: Calcular totales por caja
+  INSERT INTO BATCH_ACTIVITIES (
+    ACTIVITY_NAME, 
+    DESCRIPTION, 
+    ACTION,
+    IS_ACTIVE
+  ) VALUES (
+    'CALCULAR_TOTALES_CAJA',
+    'Calcular totales de efectivo por caja',
+    'PCK_BATCH_SIM.activity(''CALCULAR_TOTALES_CAJA'', 45);',
+    'Y'
+  );
+
+  -- Actividad 3: Conciliación bancaria
+  INSERT INTO BATCH_ACTIVITIES (
+    ACTIVITY_NAME, 
+    DESCRIPTION, 
+    ACTION,
+    IS_ACTIVE
+  ) VALUES (
+    'CONCILIAR_BANCARIA',
+    'Conciliar movimientos bancarios',
+    'PCK_BATCH_SIM.activity(''CONCILIAR_BANCARIA'', 60);',
+    'Y'
+  );
+
+  -- Actividad 4: Generar reportes
+  INSERT INTO BATCH_ACTIVITIES (
+    ACTIVITY_NAME, 
+    DESCRIPTION, 
+    ACTION,
+    IS_ACTIVE
+  ) VALUES (
+    'GENERAR_REPORTE_CIERRE',
+    'Generar reporte de cierre de cajas',
+    'PCK_BATCH_SIM.activity(''GENERAR_REPORTE_CIERRE'', 25);',
+    'Y'
+  );
+
+  -- Actividad 5: Enviar notificaciones
+  INSERT INTO BATCH_ACTIVITIES (
+    ACTIVITY_NAME, 
+    DESCRIPTION, 
+    ACTION,
+    IS_ACTIVE
+  ) VALUES (
+    'ENVIAR_NOTIFICACIONES',
+    'Enviar notificaciones de cierre completado',
+    'PCK_BATCH_SIM.activity(''ENVIAR_NOTIFICACIONES'', 10);',
+    'Y'
+  );
+END;
+/
+```
+
+#### **Paso 3: Organizar en Procesos**
+```sql
+-- Crear proceso de cierre de cajas
+BEGIN
+  PCK_BATCH_MANAGER.CREATE_PROCESS(
+    p_process_name => 'CIERRE_CAJAS',
+    p_description => 'Proceso completo de cierre de cajas diario'
+  );
+
+  -- Agregar actividades al proceso
+  PCK_BATCH_MANAGER.ADD_ACTIVITY_TO_PROCESS(
+    p_process_name => 'CIERRE_CAJAS',
+    p_activity_name => 'VALIDAR_TRANSACCIONES',
+    p_description => 'Validar transacciones pendientes',
+    p_action => 'PCK_BATCH_SIM.activity(''VALIDAR_TRANSACCIONES'', 30);'
+  );
+
+  PCK_BATCH_MANAGER.ADD_ACTIVITY_TO_PROCESS(
+    p_process_name => 'CIERRE_CAJAS',
+    p_activity_name => 'CALCULAR_TOTALES_CAJA',
+    p_description => 'Calcular totales de efectivo',
+    p_action => 'PCK_BATCH_SIM.activity(''CALCULAR_TOTALES_CAJA'', 45);'
+  );
+
+  PCK_BATCH_MANAGER.ADD_ACTIVITY_TO_PROCESS(
+    p_process_name => 'CIERRE_CAJAS',
+    p_activity_name => 'CONCILIAR_BANCARIA',
+    p_description => 'Conciliar movimientos bancarios',
+    p_action => 'PCK_BATCH_SIM.activity(''CONCILIAR_BANCARIA'', 60);'
+  );
+
+  PCK_BATCH_MANAGER.ADD_ACTIVITY_TO_PROCESS(
+    p_process_name => 'CIERRE_CAJAS',
+    p_activity_name => 'GENERAR_REPORTE_CIERRE',
+    p_description => 'Generar reporte de cierre',
+    p_action => 'PCK_BATCH_SIM.activity(''GENERAR_REPORTE_CIERRE'', 25);'
+  );
+
+  PCK_BATCH_MANAGER.ADD_ACTIVITY_TO_PROCESS(
+    p_process_name => 'CIERRE_CAJAS',
+    p_activity_name => 'ENVIAR_NOTIFICACIONES',
+    p_description => 'Enviar notificaciones',
+    p_action => 'PCK_BATCH_SIM.activity(''ENVIAR_NOTIFICACIONES'', 10);'
+  );
+END;
+/
+```
+
+#### **Paso 4: Crear Cadena y Agregar Proceso**
+```sql
+-- Crear cadena de procesos financieros
+BEGIN
+  PCK_BATCH_MANAGER.CREATE_CHAIN(
+    p_chain_name => 'PROCESOS_FINANCIEROS',
+    p_description => 'Cadena de procesos financieros diarios'
+  );
+
+  -- Agregar proceso de cierre de cajas a la cadena
+  PCK_BATCH_MANAGER.ADD_PROCESS_TO_CHAIN(
+    p_chain_name => 'PROCESOS_FINANCIEROS',
+    p_process_name => 'CIERRE_CAJAS',
+    p_description => 'Cierre diario de cajas'
+  );
+END;
+/
+```
+
+#### **Paso 5: Configurar Reglas y Parámetros**
+```sql
+-- Configurar reglas condicionales
+BEGIN
+  INSERT INTO BATCH_CHAIN_PROCESSES (
+    CHAIN_NAME,
+    PROCESS_NAME,
+    CONDITION_RULES,
+    DESCRIPTION
+  ) VALUES (
+    'PROCESOS_FINANCIEROS',
+    'CIERRE_CAJAS',
+    '{"CONDITION": "SYSDATE >= TRUNC(SYSDATE) + 22/24", "ACTION": "EXECUTE"}',
+    'Ejecutar cierre de cajas después de las 10 PM'
+  );
+END;
+/
+
+-- Configurar parámetros de empresa
+BEGIN
+  INSERT INTO BATCH_COMPANY_PARAMETERS (
+    COMPANY_ID,
+    PARAMETER_NAME,
+    PARAMETER_VALUE,
+    DESCRIPTION
+  ) VALUES (
+    1,
+    'CIERRE_CAJAS_HORA_LIMITE',
+    '22:00',
+    'Hora límite para cierre de cajas'
+  );
+
+  INSERT INTO BATCH_COMPANY_PARAMETERS (
+    COMPANY_ID,
+    PARAMETER_NAME,
+    PARAMETER_VALUE,
+    DESCRIPTION
+  ) VALUES (
+    1,
+    'DESTINATARIOS_CIERRE_CAJAS',
+    'gerente.finanzas@empresa.com,contador@empresa.com',
+    'Destinatarios de notificaciones de cierre'
+  );
+END;
+/
+```
+
+#### **Paso 6: Programar Ejecución Automática**
+```sql
+-- Crear job en DBMS_SCHEDULER para ejecución automática
+BEGIN
+  DBMS_SCHEDULER.CREATE_JOB(
+    job_name => 'JOB_CIERRE_CAJAS_DIARIO',
+    job_type => 'PLSQL_BLOCK',
+    job_action => 'BEGIN PCK_BATCH_MANAGER.START_CHAIN_EXECUTION(''PROCESOS_FINANCIEROS'', 1); END;',
+    start_date => SYSTIMESTAMP,
+    repeat_interval => 'FREQ=DAILY; BYHOUR=22; BYMINUTE=0',
+    enabled => TRUE,
+    comments => 'Ejecución automática diaria de cierre de cajas'
+  );
+END;
+/
+```
+
+#### **Paso 7: Monitorear Ejecución**
+```sql
+-- Monitorear ejecución en tiempo real
+SELECT * FROM V_BATCH_RUNNING_CHAINS 
+WHERE chain_name = 'PROCESOS_FINANCIEROS';
+
+SELECT * FROM V_BATCH_RUNNING_PROCESSES 
+WHERE process_name = 'CIERRE_CAJAS';
+
+SELECT * FROM V_BATCH_RUNNING_ACTIVITIES 
+WHERE activity_name LIKE '%CIERRE%';
+
+-- Verificar jobs programados
+SELECT job_name, state, next_run_date, last_run_date 
+FROM USER_SCHEDULER_JOBS 
+WHERE job_name = 'JOB_CIERRE_CAJAS_DIARIO';
+```
+
+---
+
+### 🇬🇧 **Complete System Flow: Cash Register Closing**
+
+#### **Step 1: Identify Activities (PL/SQL Processes)**
+```sql
+-- Typical activities for cash register closing
+-- 1. Validate pending transactions
+-- 2. Calculate totals by register
+-- 3. Bank reconciliation
+-- 4. Generate reports
+-- 5. Send notifications
+```
+
+#### **Step 2: Define Activities in the System**
+```sql
+-- Define activities with their PL/SQL actions
+BEGIN
+  -- Activity 1: Validate pending transactions
+  INSERT INTO BATCH_ACTIVITIES (
+    ACTIVITY_NAME, 
+    DESCRIPTION, 
+    ACTION,
+    IS_ACTIVE
+  ) VALUES (
+    'VALIDATE_TRANSACTIONS',
+    'Validate pending closing transactions',
+    'PCK_BATCH_SIM.activity(''VALIDATE_TRANSACTIONS'', 30);',
+    'Y'
+  );
+
+  -- Activity 2: Calculate register totals
+  INSERT INTO BATCH_ACTIVITIES (
+    ACTIVITY_NAME, 
+    DESCRIPTION, 
+    ACTION,
+    IS_ACTIVE
+  ) VALUES (
+    'CALCULATE_REGISTER_TOTALS',
+    'Calculate cash totals by register',
+    'PCK_BATCH_SIM.activity(''CALCULATE_REGISTER_TOTALS'', 45);',
+    'Y'
+  );
+
+  -- Activity 3: Bank reconciliation
+  INSERT INTO BATCH_ACTIVITIES (
+    ACTIVITY_NAME, 
+    DESCRIPTION, 
+    ACTION,
+    IS_ACTIVE
+  ) VALUES (
+    'BANK_RECONCILIATION',
+    'Reconcile bank movements',
+    'PCK_BATCH_SIM.activity(''BANK_RECONCILIATION'', 60);',
+    'Y'
+  );
+
+  -- Activity 4: Generate reports
+  INSERT INTO BATCH_ACTIVITIES (
+    ACTIVITY_NAME, 
+    DESCRIPTION, 
+    ACTION,
+    IS_ACTIVE
+  ) VALUES (
+    'GENERATE_CLOSING_REPORT',
+    'Generate cash register closing report',
+    'PCK_BATCH_SIM.activity(''GENERATE_CLOSING_REPORT'', 25);',
+    'Y'
+  );
+
+  -- Activity 5: Send notifications
+  INSERT INTO BATCH_ACTIVITIES (
+    ACTIVITY_NAME, 
+    DESCRIPTION, 
+    ACTION,
+    IS_ACTIVE
+  ) VALUES (
+    'SEND_NOTIFICATIONS',
+    'Send closing completion notifications',
+    'PCK_BATCH_SIM.activity(''SEND_NOTIFICATIONS'', 10);',
+    'Y'
+  );
+END;
+/
+```
+
+#### **Step 3: Organize into Processes**
+```sql
+-- Create cash register closing process
+BEGIN
+  PCK_BATCH_MANAGER.CREATE_PROCESS(
+    p_process_name => 'CASH_REGISTER_CLOSING',
+    p_description => 'Complete daily cash register closing process'
+  );
+
+  -- Add activities to the process
+  PCK_BATCH_MANAGER.ADD_ACTIVITY_TO_PROCESS(
+    p_process_name => 'CASH_REGISTER_CLOSING',
+    p_activity_name => 'VALIDATE_TRANSACTIONS',
+    p_description => 'Validate pending transactions',
+    p_action => 'PCK_BATCH_SIM.activity(''VALIDATE_TRANSACTIONS'', 30);'
+  );
+
+  PCK_BATCH_MANAGER.ADD_ACTIVITY_TO_PROCESS(
+    p_process_name => 'CASH_REGISTER_CLOSING',
+    p_activity_name => 'CALCULATE_REGISTER_TOTALS',
+    p_description => 'Calculate cash totals',
+    p_action => 'PCK_BATCH_SIM.activity(''CALCULATE_REGISTER_TOTALS'', 45);'
+  );
+
+  PCK_BATCH_MANAGER.ADD_ACTIVITY_TO_PROCESS(
+    p_process_name => 'CASH_REGISTER_CLOSING',
+    p_activity_name => 'BANK_RECONCILIATION',
+    p_description => 'Reconcile bank movements',
+    p_action => 'PCK_BATCH_SIM.activity(''BANK_RECONCILIATION'', 60);'
+  );
+
+  PCK_BATCH_MANAGER.ADD_ACTIVITY_TO_PROCESS(
+    p_process_name => 'CASH_REGISTER_CLOSING',
+    p_activity_name => 'GENERATE_CLOSING_REPORT',
+    p_description => 'Generate closing report',
+    p_action => 'PCK_BATCH_SIM.activity(''GENERATE_CLOSING_REPORT'', 25);'
+  );
+
+  PCK_BATCH_MANAGER.ADD_ACTIVITY_TO_PROCESS(
+    p_process_name => 'CASH_REGISTER_CLOSING',
+    p_activity_name => 'SEND_NOTIFICATIONS',
+    p_description => 'Send notifications',
+    p_action => 'PCK_BATCH_SIM.activity(''SEND_NOTIFICATIONS'', 10);'
+  );
+END;
+/
+```
+
+#### **Step 4: Create Chain and Add Process**
+```sql
+-- Create financial processes chain
+BEGIN
+  PCK_BATCH_MANAGER.CREATE_CHAIN(
+    p_chain_name => 'FINANCIAL_PROCESSES',
+    p_description => 'Daily financial processes chain'
+  );
+
+  -- Add cash register closing process to the chain
+  PCK_BATCH_MANAGER.ADD_PROCESS_TO_CHAIN(
+    p_chain_name => 'FINANCIAL_PROCESSES',
+    p_process_name => 'CASH_REGISTER_CLOSING',
+    p_description => 'Daily cash register closing'
+  );
+END;
+/
+```
+
+#### **Step 5: Configure Rules and Parameters**
+```sql
+-- Configure conditional rules
+BEGIN
+  INSERT INTO BATCH_CHAIN_PROCESSES (
+    CHAIN_NAME,
+    PROCESS_NAME,
+    CONDITION_RULES,
+    DESCRIPTION
+  ) VALUES (
+    'FINANCIAL_PROCESSES',
+    'CASH_REGISTER_CLOSING',
+    '{"CONDITION": "SYSDATE >= TRUNC(SYSDATE) + 22/24", "ACTION": "EXECUTE"}',
+    'Execute cash register closing after 10 PM'
+  );
+END;
+/
+
+-- Configure company parameters
+BEGIN
+  INSERT INTO BATCH_COMPANY_PARAMETERS (
+    COMPANY_ID,
+    PARAMETER_NAME,
+    PARAMETER_VALUE,
+    DESCRIPTION
+  ) VALUES (
+    1,
+    'CASH_CLOSING_TIME_LIMIT',
+    '22:00',
+    'Time limit for cash register closing'
+  );
+
+  INSERT INTO BATCH_COMPANY_PARAMETERS (
+    COMPANY_ID,
+    PARAMETER_NAME,
+    PARAMETER_VALUE,
+    DESCRIPTION
+  ) VALUES (
+    1,
+    'CASH_CLOSING_RECIPIENTS',
+    'finance.manager@company.com,accountant@company.com',
+    'Cash closing notification recipients'
+  );
+END;
+/
+```
+
+#### **Step 6: Schedule Automatic Execution**
+```sql
+-- Create DBMS_SCHEDULER job for automatic execution
+BEGIN
+  DBMS_SCHEDULER.CREATE_JOB(
+    job_name => 'JOB_DAILY_CASH_CLOSING',
+    job_type => 'PLSQL_BLOCK',
+    job_action => 'BEGIN PCK_BATCH_MANAGER.START_CHAIN_EXECUTION(''FINANCIAL_PROCESSES'', 1); END;',
+    start_date => SYSTIMESTAMP,
+    repeat_interval => 'FREQ=DAILY; BYHOUR=22; BYMINUTE=0',
+    enabled => TRUE,
+    comments => 'Daily automatic cash register closing execution'
+  );
+END;
+/
+```
+
+#### **Step 7: Monitor Execution**
+```sql
+-- Monitor execution in real-time
+SELECT * FROM V_BATCH_RUNNING_CHAINS 
+WHERE chain_name = 'FINANCIAL_PROCESSES';
+
+SELECT * FROM V_BATCH_RUNNING_PROCESSES 
+WHERE process_name = 'CASH_REGISTER_CLOSING';
+
+SELECT * FROM V_BATCH_RUNNING_ACTIVITIES 
+WHERE activity_name LIKE '%CLOSING%';
+
+-- Check scheduled jobs
+SELECT job_name, state, next_run_date, last_run_date 
+FROM USER_SCHEDULER_JOBS 
+WHERE job_name = 'JOB_DAILY_CASH_CLOSING';
+```
+
+---
+
+## 🏢 **Otros Casos de Uso Empresariales / Other Business Use Cases**
+
+### 🇪🇸 **Generación de Datos para BI**
+```sql
+-- Cadena: PROCESOS_BI
+-- Procesos: EXTRACCION_DATOS, TRANSFORMACION_DATOS, CARGA_DATOS_BI
+-- Actividades: Extraer ventas, transformar métricas, cargar dimensiones, actualizar índices
+
+-- Ejemplo de actividad:
+PCK_BATCH_SIM.activity('EXTRACCION_VENTAS_DIARIAS', 120);
+PCK_BATCH_SIM.activity('TRANSFORMAR_METRICAS_VENTAS', 90);
+PCK_BATCH_SIM.activity('CARGAR_DIMENSIONES_BI', 60);
+```
+
+### 🇪🇸 **Cálculo de Remuneraciones**
+```sql
+-- Cadena: PROCESOS_RRHH
+-- Procesos: CALCULO_NOMINA, GENERACION_BOLETAS, ENVIO_BANCOS
+-- Actividades: Calcular horas, procesar bonos, generar boletas, enviar a bancos
+
+-- Ejemplo de actividad:
+PCK_BATCH_SIM.activity('CALCULAR_HORAS_TRABAJADAS', 45);
+PCK_BATCH_SIM.activity('PROCESAR_BONOS_INCENTIVOS', 30);
+PCK_BATCH_SIM.activity('GENERAR_BOLETAS_PAGO', 75);
+```
+
+### 🇪🇸 **Generación de Informes de Gestión**
+```sql
+-- Cadena: PROCESOS_REPORTES
+-- Procesos: CONSOLIDACION_DATOS, GENERACION_REPORTES, DISTRIBUCION
+-- Actividades: Consolidar métricas, generar PDFs, enviar por email
+
+-- Ejemplo de actividad:
+PCK_BATCH_SIM.activity('CONSOLIDAR_METRICAS_VENTAS', 40);
+PCK_BATCH_SIM.activity('GENERAR_REPORTE_PDF', 35);
+PCK_BATCH_SIM.activity('ENVIAR_REPORTE_EMAIL', 15);
+```
+
+---
+
 ## 🌐 Ejemplo de uso típico en cadenas y procesos de simulación / Typical usage in simulation chains and processes
 
 ### 🇪🇸 **Definición de una actividad de simulación en una cadena**
