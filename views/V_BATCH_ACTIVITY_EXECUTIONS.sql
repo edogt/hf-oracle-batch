@@ -100,4 +100,4 @@ LEFT JOIN batch_chains ch
 ON cx.chain_id = ch.id
 order by decode(ax.execution_state,'running',1,2) asc, ax.start_time desc
 ;
-GRANT SELECT ON V_BATCH_ACTIVITY_EXECUTIONS TO ROLE_BATCH_MAN;
+GRANT SELECT ON V_BATCH_ACTIVITY_EXECUTIONS TO ROLE_HF_BATCH;

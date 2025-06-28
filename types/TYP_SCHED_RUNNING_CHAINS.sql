@@ -19,7 +19,7 @@
  *   v_running TYP_SCHED_RUNNING_CHAINS;
  * BEGIN
  *   v_running := TYP_SCHED_RUNNING_CHAINS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     chain_name => 'DAILY_BATCH_CHAIN',
  *     job_name => 'DAILY_BATCH_CHAIN_JOB',
  *     job_subname => 'EXECUTION_PHASE',
@@ -41,7 +41,7 @@
  *   v_running_list := TYP_SCHED_RUNNING_CHAINS_SET();
  *   v_running_list.EXTEND;
  *   v_running_list(v_running_list.LAST) := TYP_SCHED_RUNNING_CHAINS(
- *     'BATCH_MAN', 'WEEKLY_REPORT_CHAIN', 'WEEKLY_REPORT_CHAIN_JOB', 'VALIDATION_PHASE',
+ *     'HF_BATCH', 'WEEKLY_REPORT_CHAIN', 'WEEKLY_REPORT_CHAIN_JOB', 'VALIDATION_PHASE',
  *     'RUNNING', SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND, null,
  *     INTERVAL '0 0:30:0' DAY TO SECOND, 12346, 67891, 18.2,
  *     'Step 1 of 3 completed, 2 steps remaining'

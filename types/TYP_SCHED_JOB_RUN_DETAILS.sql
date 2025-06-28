@@ -1,35 +1,37 @@
 /**
  * Type: TYP_SCHED_JOB_RUN_DETAILS
- * Description: Oracle Scheduler job run details type for batch process execution metrics.
- *              Represents detailed execution information including timing, resource usage,
- *              and performance metrics for job execution analysis and optimization.
+ * Description: Oracle Scheduler job run details type for batch process execution monitoring.
+ *              Provides detailed information about job execution instances including
+ *              timing, status, errors, and performance metrics for operational analysis.
  *
  * Author: Eduardo Gutiérrez Tapia (edogt@hotmail.com)
  *
  * Purpose:
  *   - Define Oracle Scheduler job run detail structures
- *   - Support job execution performance analysis and monitoring
- *   - Enable resource usage tracking and optimization
- *   - Provide detailed execution metrics for capacity planning
+ *   - Support detailed job execution analysis and monitoring
+ *   - Enable performance tracking and error analysis
+ *   - Provide comprehensive execution history for batch jobs
  *
  * Usage Examples:
  * 
- * -- Create a job run details entry
+ * -- Create a job run detail entry
  * DECLARE
- *   v_details TYP_SCHED_JOB_RUN_DETAILS;
+ *   v_detail TYP_SCHED_JOB_RUN_DETAILS;
  * BEGIN
- *   v_details := TYP_SCHED_JOB_RUN_DETAILS(
- *     log_id => 12345,
- *     log_date => SYSTIMESTAMP,
- *     owner => 'BATCH_MAN',
+ *   v_detail := TYP_SCHED_JOB_RUN_DETAILS(
+ *     owner => 'HF_BATCH',
  *     job_name => 'DAILY_DATA_PROCESSING',
  *     job_subname => 'EXTRACT_PHASE',
- *     status => 'SUCCEEDED',
- *     error# => null,
- *     req_start_date => SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND,
- *     actual_start_date => SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND,
- *     run_duration => INTERVAL '0 0:25:30.5' DAY TO SECOND,
- *     additional_info => 'CPU: 15%, Memory: 256MB, Records: 15000'
+ *     state => 'COMPLETED',
+ *     error_code => null,
+ *     start_date => SYSTIMESTAMP - INTERVAL '0 0:45:0' DAY TO SECOND,
+ *     end_date => SYSTIMESTAMP - INTERVAL '0 0:15:0' DAY TO SECOND,
+ *     run_duration => INTERVAL '0 0:30:0' DAY TO SECOND,
+ *     session_id => 12345,
+ *     slave_process_id => 67890,
+ *     cpu_used => 28.5,
+ *     additional_info => 'Successfully processed 15000 records',
+ *     priority => 'NORMAL'
  *   );
  * END;
  *
@@ -40,11 +42,10 @@
  *   v_details_list := TYP_SCHED_JOB_RUN_DETAILS_SET();
  *   v_details_list.EXTEND;
  *   v_details_list(v_details_list.LAST) := TYP_SCHED_JOB_RUN_DETAILS(
- *     12346, SYSTIMESTAMP, 'BATCH_MAN', 'WEEKLY_REPORT_JOB', 'VALIDATION_PHASE',
- *     'FAILED', 20001, SYSTIMESTAMP - INTERVAL '0 0:15:0' DAY TO SECOND,
- *     SYSTIMESTAMP - INTERVAL '0 0:15:0' DAY TO SECOND,
- *     INTERVAL '0 0:12:45.2' DAY TO SECOND,
- *     'Error: ORA-20001 - Invalid data format detected'
+ *     12346, SYSTIMESTAMP, 'HF_BATCH', 'WEEKLY_REPORT_JOB', 'VALIDATION_PHASE',
+ *     'RUNNING', SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND, null,
+ *     INTERVAL '0 0:30:0' DAY TO SECOND, 12346, 67891, 22.8,
+ *     'Validating data set 3 of 5 (60% complete)', 'NORMAL'
  *   );
  * END;
  *

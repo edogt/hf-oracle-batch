@@ -112,4 +112,4 @@ where ( 1 = 1 )
     and comp.id = chain.company_id
     and actexec.execution_state = 'RUNNING'
 ;
-GRANT SELECT ON V_BATCH_RUNNING_ACTIVITIES TO ROLE_BATCH_MAN;
+GRANT SELECT ON V_BATCH_RUNNING_ACTIVITIES TO ROLE_HF_BATCH;

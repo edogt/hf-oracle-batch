@@ -1,16 +1,16 @@
 /**
  * Type: TYP_SCHED_CHAIN_RULES
- * Description: Oracle Scheduler chain rule definition type for conditional execution control.
- *              Represents a rule configuration that defines conditions and actions
- *              for chain-based batch process orchestration.
+ * Description: Oracle Scheduler chain rule type for batch process chain execution control.
+ *              Defines conditional rules that control chain execution flow based on
+ *              step outcomes and system conditions for intelligent batch processing.
  *
  * Author: Eduardo Gutiérrez Tapia (edogt@hotmail.com)
  *
  * Purpose:
- *   - Define Oracle Scheduler chain rules for conditional execution
- *   - Support rule-based batch process orchestration and control
- *   - Enable conditional branching and decision making in chains
- *   - Provide flexible execution control based on conditions
+ *   - Define Oracle Scheduler chain rule structures
+ *   - Support conditional chain execution control
+ *   - Enable intelligent workflow decision making
+ *   - Provide error handling and recovery mechanisms
  *
  * Usage Examples:
  * 
@@ -19,12 +19,12 @@
  *   v_rule TYP_SCHED_CHAIN_RULES;
  * BEGIN
  *   v_rule := TYP_SCHED_CHAIN_RULES(
- *     chain_name => 'DAILY_BATCH_CHAIN',
- *     rule_owner => 'BATCH_MAN',
- *     rule_name => 'CHECK_DATA_AVAILABILITY',
- *     condition => 'step1.state = ''COMPLETED'' AND data_count > 0',
- *     action => 'START step2',
- *     comments => 'Start data processing only if data is available'
+ *     rule_owner => 'HF_BATCH',
+ *     rule_name => 'ERROR_HANDLING',
+ *     chain_name => 'DAILY_PROCESSING_CHAIN',
+ *     condition => 'VALIDATE_STEP.FAILED',
+ *     action => 'STOP_CHAIN',
+ *     comments => 'Stop chain execution on validation failure'
  *   );
  * END;
  *
@@ -35,10 +35,8 @@
  *   v_rules := TYP_SCHED_CHAIN_RULES_SET();
  *   v_rules.EXTEND;
  *   v_rules(v_rules.LAST) := TYP_SCHED_CHAIN_RULES(
- *     'WEEKLY_CHAIN', 'BATCH_MAN', 'ERROR_HANDLING',
- *     'step1.state = ''FAILED''',
- *     'STOP_CHAIN',
- *     'Stop chain execution on step failure'
+ *     'WEEKLY_CHAIN', 'HF_BATCH', 'ERROR_HANDLING',
+ *     'VALIDATE_STEP', 'FAILED', 'STOP_CHAIN', 'Stop chain on validation failure'
  *   );
  * END;
  *

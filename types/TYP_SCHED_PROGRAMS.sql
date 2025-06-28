@@ -19,7 +19,7 @@
  *   v_program TYP_SCHED_PROGRAMS;
  * BEGIN
  *   v_program := TYP_SCHED_PROGRAMS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     program_name => 'EXTRACT_DATA_PRG',
  *     program_type => 'STORED_PROCEDURE',
  *     program_action => 'PCK_BATCH_MANAGER.EXTRACT_DATA',
@@ -36,7 +36,7 @@
  *   v_programs := TYP_SCHED_PROGRAMS_SET();
  *   v_programs.EXTEND;
  *   v_programs(v_programs.LAST) := TYP_SCHED_PROGRAMS(
- *     'BATCH_MAN', 'VALIDATE_DATA_PRG', 'STORED_PROCEDURE',
+ *     'HF_BATCH', 'VALIDATE_DATA_PRG', 'STORED_PROCEDURE',
  *     'PCK_BATCH_MANAGER.VALIDATE_DATA', 2, 'TRUE',
  *     'Validate extracted data for consistency and quality'
  *   );

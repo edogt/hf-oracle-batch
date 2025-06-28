@@ -107,4 +107,4 @@ select      procexec.id exec_id,
          and proc.id = procexec.process_id
      order by 1 desc
 ;
-GRANT SELECT ON V_BATCH_PROCS_LAST_EXECS TO ROLE_BATCH_MAN;
+GRANT SELECT ON V_BATCH_PROCS_LAST_EXECS TO ROLE_HF_BATCH;

@@ -109,4 +109,4 @@ where ( 1 = 1 )
     and chain.id = chainexec.chain_id
     and comp.id = chain.company_id
 ;
-GRANT SELECT ON V_BATCH_PROCESS_EXECUTIONS TO ROLE_BATCH_MAN;
+GRANT SELECT ON V_BATCH_PROCESS_EXECUTIONS TO ROLE_HF_BATCH;

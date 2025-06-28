@@ -1,16 +1,16 @@
 /**
  * Type: TYP_SCHED_JOB_LOG
- * Description: Oracle Scheduler job log entry type for batch process execution history.
- *              Represents individual log entries that track job execution events,
- *              status changes, and error information for audit and troubleshooting.
+ * Description: Oracle Scheduler job log type for batch process execution tracking.
+ *              Represents job execution log entries with status, timing, and
+ *              error information for operational monitoring and troubleshooting.
  *
  * Author: Eduardo Gutiérrez Tapia (edogt@hotmail.com)
  *
  * Purpose:
- *   - Define Oracle Scheduler job log entry structures
- *   - Support job execution history tracking and audit
- *   - Enable job status monitoring and error analysis
- *   - Provide execution event logging and troubleshooting
+ *   - Define Oracle Scheduler job log structures
+ *   - Support job execution history and audit trails
+ *   - Enable error tracking and troubleshooting
+ *   - Provide operational visibility into job execution patterns
  *
  * Usage Examples:
  * 
@@ -19,15 +19,15 @@
  *   v_log TYP_SCHED_JOB_LOG;
  * BEGIN
  *   v_log := TYP_SCHED_JOB_LOG(
- *     log_id => 12345,
- *     log_date => SYSTIMESTAMP,
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     job_name => 'DAILY_DATA_PROCESSING',
  *     job_subname => 'EXTRACT_PHASE',
- *     operation => 'RUN',
  *     status => 'SUCCEEDED',
- *     user_name => 'BATCH_USER',
- *     additional_info => 'Processed 15000 records successfully'
+ *     error_code => null,
+ *     req_start_date => SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND,
+ *     actual_start_date => SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND,
+ *     run_duration => INTERVAL '0 0:25:30.5' DAY TO SECOND,
+ *     additional_info => 'CPU: 15%, Memory: 256MB, Records: 15000'
  *   );
  * END;
  *
@@ -38,7 +38,7 @@
  *   v_logs := TYP_SCHED_JOB_LOG_SET();
  *   v_logs.EXTEND;
  *   v_logs(v_logs.LAST) := TYP_SCHED_JOB_LOG(
- *     12346, SYSTIMESTAMP, 'BATCH_MAN', 'WEEKLY_REPORT_JOB', 'VALIDATION_PHASE',
+ *     12346, SYSTIMESTAMP, 'HF_BATCH', 'WEEKLY_REPORT_JOB', 'VALIDATION_PHASE',
  *     'RUN', 'FAILED', 'BATCH_USER', 'Validation failed: Invalid data format'
  *   );
  * END;

@@ -120,4 +120,4 @@ where ( 1 = 1 )
     and comp.id = chain.company_id
     and procexec.state = 'RUNNING'
 ;
-GRANT SELECT ON V_BATCH_RUNNING_PROCESSES TO ROLE_BATCH_MAN;
+GRANT SELECT ON V_BATCH_RUNNING_PROCESSES TO ROLE_HF_BATCH;

@@ -20,46 +20,46 @@
  * BEGIN
  *   v_logs := TYP_SCHED_JOB_LOG_SET();
  *   
- *   -- Add successful execution log
+ *   -- Add successful job log entry
  *   v_logs.EXTEND;
  *   v_logs(v_logs.LAST) := TYP_SCHED_JOB_LOG(
- *     log_id => 12345,
- *     log_date => SYSTIMESTAMP,
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     job_name => 'DAILY_DATA_PROCESSING',
  *     job_subname => 'EXTRACT_PHASE',
- *     operation => 'RUN',
  *     status => 'SUCCEEDED',
- *     user_name => 'BATCH_USER',
- *     additional_info => 'Processed 15000 records successfully'
+ *     error_code => null,
+ *     req_start_date => SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND,
+ *     actual_start_date => SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND,
+ *     run_duration => INTERVAL '0 0:25:30.5' DAY TO SECOND,
+ *     additional_info => 'CPU: 15%, Memory: 256MB, Records: 15000'
  *   );
  *   
- *   -- Add failed execution log
+ *   -- Add failed job log entry
  *   v_logs.EXTEND;
  *   v_logs(v_logs.LAST) := TYP_SCHED_JOB_LOG(
- *     log_id => 12346,
- *     log_date => SYSTIMESTAMP,
- *     owner => 'BATCH_MAN',
- *     job_name => 'WEEKLY_REPORT_JOB',
+ *     owner => 'HF_BATCH',
+ *     job_name => 'WEEKLY_REPORT_GENERATION',
  *     job_subname => 'VALIDATION_PHASE',
- *     operation => 'RUN',
  *     status => 'FAILED',
- *     user_name => 'BATCH_USER',
- *     additional_info => 'Validation failed: Invalid data format'
+ *     error_code => 20001,
+ *     req_start_date => SYSTIMESTAMP - INTERVAL '0 0:15:0' DAY TO SECOND,
+ *     actual_start_date => SYSTIMESTAMP - INTERVAL '0 0:15:0' DAY TO SECOND,
+ *     run_duration => INTERVAL '0 0:12:45.2' DAY TO SECOND,
+ *     additional_info => 'Error: ORA-20001 - Invalid data format detected'
  *   );
  *   
- *   -- Add job stop log
+ *   -- Add long-running job log entry
  *   v_logs.EXTEND;
  *   v_logs(v_logs.LAST) := TYP_SCHED_JOB_LOG(
- *     log_id => 12347,
- *     log_date => SYSTIMESTAMP,
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     job_name => 'MONTHLY_CLEANUP_JOB',
  *     job_subname => 'CLEANUP_PHASE',
- *     operation => 'STOP',
  *     status => 'SUCCEEDED',
- *     user_name => 'ADMIN_USER',
- *     additional_info => 'Job stopped by administrator'
+ *     error_code => null,
+ *     req_start_date => SYSTIMESTAMP - INTERVAL '0 2:0:0' DAY TO SECOND,
+ *     actual_start_date => SYSTIMESTAMP - INTERVAL '0 2:0:0' DAY TO SECOND,
+ *     run_duration => INTERVAL '0 1:45:20.1' DAY TO SECOND,
+ *     additional_info => 'CPU: 45%, Memory: 512MB, Records: 50000, Cleaned: 1000'
  *   );
  * END;
  *

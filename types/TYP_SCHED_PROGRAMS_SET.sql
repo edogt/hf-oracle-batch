@@ -23,19 +23,19 @@
  *   -- Add data extraction program
  *   v_programs.EXTEND;
  *   v_programs(v_programs.LAST) := TYP_SCHED_PROGRAMS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     program_name => 'EXTRACT_DATA_PRG',
  *     program_type => 'STORED_PROCEDURE',
  *     program_action => 'PCK_BATCH_MANAGER.EXTRACT_DATA',
  *     number_of_arguments => 3,
  *     enabled => 'TRUE',
- *     comments => 'Extract data from source systems for daily processing'
+ *     comments => 'Extract data from source systems for processing'
  *   );
  *   
  *   -- Add data validation program
  *   v_programs.EXTEND;
  *   v_programs(v_programs.LAST) := TYP_SCHED_PROGRAMS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     program_name => 'VALIDATE_DATA_PRG',
  *     program_type => 'STORED_PROCEDURE',
  *     program_action => 'PCK_BATCH_MANAGER.VALIDATE_DATA',
@@ -47,13 +47,13 @@
  *   -- Add report generation program
  *   v_programs.EXTEND;
  *   v_programs(v_programs.LAST) := TYP_SCHED_PROGRAMS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     program_name => 'GENERATE_REPORT_PRG',
  *     program_type => 'STORED_PROCEDURE',
  *     program_action => 'PCK_BATCH_MANAGER.GENERATE_REPORT',
  *     number_of_arguments => 4,
  *     enabled => 'TRUE',
- *     comments => 'Generate daily processing reports and summaries'
+ *     comments => 'Generate reports from processed data'
  *   );
  * END;
  *

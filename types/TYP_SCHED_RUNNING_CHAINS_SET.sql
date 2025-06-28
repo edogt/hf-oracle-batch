@@ -20,55 +20,52 @@
  * BEGIN
  *   v_running := TYP_SCHED_RUNNING_CHAINS_SET();
  *   
- *   -- Add daily batch chain execution
+ *   -- Add first running chain
  *   v_running.EXTEND;
  *   v_running(v_running.LAST) := TYP_SCHED_RUNNING_CHAINS(
- *     owner => 'BATCH_MAN',
- *     chain_name => 'DAILY_BATCH_CHAIN',
- *     job_name => 'DAILY_BATCH_CHAIN_JOB',
- *     job_subname => 'EXECUTION_PHASE',
- *     state => 'RUNNING',
- *     start_date => SYSTIMESTAMP - INTERVAL '0 0:15:0' DAY TO SECOND,
+ *     owner => 'HF_BATCH',
+ *     chain_name => 'DAILY_DATA_PROCESSING_CHAIN',
+ *     job_name => 'DAILY_DATA_PROCESSING_JOB',
+ *     state => 'EXTRACT_PHASE',
+ *     start_date => SYSTIMESTAMP - INTERVAL '0 0:20:0' DAY TO SECOND,
  *     end_date => null,
- *     run_duration => INTERVAL '0 0:15:0' DAY TO SECOND,
+ *     run_duration => INTERVAL '0 0:20:0' DAY TO SECOND,
  *     session_id => 12345,
  *     slave_process_id => 67890,
- *     cpu_used => 25.5,
- *     additional_info => 'Step 2 of 5 completed, 3 steps remaining'
+ *     cpu_used => 28.5,
+ *     additional_info => 'Processing data source 1 of 3 (33% complete)'
  *   );
  *   
- *   -- Add weekly report chain execution
+ *   -- Add second running chain
  *   v_running.EXTEND;
  *   v_running(v_running.LAST) := TYP_SCHED_RUNNING_CHAINS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     chain_name => 'WEEKLY_REPORT_CHAIN',
- *     job_name => 'WEEKLY_REPORT_CHAIN_JOB',
- *     job_subname => 'VALIDATION_PHASE',
- *     state => 'RUNNING',
- *     start_date => SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND,
+ *     job_name => 'WEEKLY_REPORT_JOB',
+ *     state => 'VALIDATION_PHASE',
+ *     start_date => SYSTIMESTAMP - INTERVAL '0 0:45:0' DAY TO SECOND,
  *     end_date => null,
- *     run_duration => INTERVAL '0 0:30:0' DAY TO SECOND,
+ *     run_duration => INTERVAL '0 0:45:0' DAY TO SECOND,
  *     session_id => 12346,
  *     slave_process_id => 67891,
- *     cpu_used => 18.2,
- *     additional_info => 'Step 1 of 3 completed, 2 steps remaining'
+ *     cpu_used => 15.2,
+ *     additional_info => 'Validating report data (60% complete)'
  *   );
  *   
- *   -- Add monthly cleanup chain execution
+ *   -- Add third running chain
  *   v_running.EXTEND;
  *   v_running(v_running.LAST) := TYP_SCHED_RUNNING_CHAINS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     chain_name => 'MONTHLY_CLEANUP_CHAIN',
- *     job_name => 'MONTHLY_CLEANUP_CHAIN_JOB',
- *     job_subname => 'CLEANUP_PHASE',
- *     state => 'RUNNING',
- *     start_date => SYSTIMESTAMP - INTERVAL '0 1:0:0' DAY TO SECOND,
+ *     job_name => 'MONTHLY_CLEANUP_JOB',
+ *     state => 'CLEANUP_PHASE',
+ *     start_date => SYSTIMESTAMP - INTERVAL '0 1:15:0' DAY TO SECOND,
  *     end_date => null,
- *     run_duration => INTERVAL '0 1:0:0' DAY TO SECOND,
+ *     run_duration => INTERVAL '0 1:15:0' DAY TO SECOND,
  *     session_id => 12347,
  *     slave_process_id => 67892,
- *     cpu_used => 35.8,
- *     additional_info => 'Step 3 of 4 completed, 1 step remaining'
+ *     cpu_used => 12.8,
+ *     additional_info => 'Cleaning temporary files (80% complete)'
  *   );
  * END;
  *

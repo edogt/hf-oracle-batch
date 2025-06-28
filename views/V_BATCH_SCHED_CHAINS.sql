@@ -95,4 +95,4 @@ from BATCH_CHAINS chain,
 where ( 1 = 1 )
     and comp.id = chain.company_id
 ;
-GRANT SELECT ON V_BATCH_SCHED_CHAINS TO ROLE_BATCH_MAN;
+GRANT SELECT ON V_BATCH_SCHED_CHAINS TO ROLE_HF_BATCH;

@@ -1,73 +1,64 @@
 /**
  * Type: TYP_SCHED_CHAIN_RULES_SET
- * Description: Collection type for Oracle Scheduler chain rule definitions.
- *              Provides a table structure to manage multiple rule configurations
- *              for conditional execution control in batch process chains.
+ * Description: Collection type for Oracle Scheduler chain rules for batch process execution control.
+ *              Provides a structured way to handle multiple chain rule instances
+ *              for conditional execution control and workflow orchestration.
  *
  * Author: Eduardo Gutiérrez Tapia (edogt@hotmail.com)
  *
  * Purpose:
- *   - Store collections of Oracle Scheduler chain rule definitions
- *   - Enable bulk operations on multiple rule configurations
- *   - Support rule management and conditional execution control
- *   - Facilitate rule-based batch process orchestration
+ *   - Manage collections of chain rule instances
+ *   - Support conditional execution control for batch processes
+ *   - Enable rule-based workflow orchestration
+ *   - Provide structured data handling for chain execution control
  *
  * Usage Examples:
  * 
- * -- Create and populate a rule collection
+ * -- Create and populate a chain rules collection
  * DECLARE
  *   v_rules TYP_SCHED_CHAIN_RULES_SET;
  * BEGIN
  *   v_rules := TYP_SCHED_CHAIN_RULES_SET();
  *   
- *   -- Add data availability rule
- *   v_rules.EXTEND;
- *   v_rules(v_rules.LAST) := TYP_SCHED_CHAIN_RULES(
- *     chain_name => 'DAILY_BATCH_CHAIN',
- *     rule_owner => 'BATCH_MAN',
- *     rule_name => 'CHECK_DATA_AVAILABILITY',
- *     condition => 'step1.state = ''COMPLETED'' AND data_count > 0',
- *     action => 'START step2',
- *     comments => 'Start data processing only if data is available'
- *   );
- *   
  *   -- Add error handling rule
  *   v_rules.EXTEND;
  *   v_rules(v_rules.LAST) := TYP_SCHED_CHAIN_RULES(
- *     chain_name => 'DAILY_BATCH_CHAIN',
- *     rule_owner => 'BATCH_MAN',
+ *     rule_owner => 'HF_BATCH',
  *     rule_name => 'ERROR_HANDLING',
- *     condition => 'step1.state = ''FAILED''',
+ *     chain_name => 'DAILY_PROCESSING_CHAIN',
+ *     condition => 'VALIDATE_STEP.FAILED',
  *     action => 'STOP_CHAIN',
- *     comments => 'Stop chain execution on step failure'
+ *     comments => 'Stop chain execution on validation failure'
  *   );
  *   
- *   -- Add completion rule
+ *   -- Add success continuation rule
  *   v_rules.EXTEND;
  *   v_rules(v_rules.LAST) := TYP_SCHED_CHAIN_RULES(
- *     chain_name => 'DAILY_BATCH_CHAIN',
- *     rule_owner => 'BATCH_MAN',
- *     rule_name => 'COMPLETION_CHECK',
- *     condition => 'step2.state = ''COMPLETED''',
- *     action => 'END_CHAIN',
- *     comments => 'End chain when all steps are completed'
+ *     rule_owner => 'HF_BATCH',
+ *     rule_name => 'SUCCESS_CONTINUATION',
+ *     chain_name => 'DAILY_PROCESSING_CHAIN',
+ *     condition => 'EXTRACT_STEP.SUCCEEDED',
+ *     action => 'CONTINUE_CHAIN',
+ *     comments => 'Continue to next step on successful extraction'
  *   );
- * END;
- *
- * -- Use in procedures for bulk operations
- * PROCEDURE process_rules(p_rules IN TYP_SCHED_CHAIN_RULES_SET) IS
- * BEGIN
- *   FOR i IN 1..p_rules.COUNT LOOP
- *     -- Process each rule
- *     process_single_rule(p_rules(i));
- *   END LOOP;
+ *   
+ *   -- Add timeout handling rule
+ *   v_rules.EXTEND;
+ *   v_rules(v_rules.LAST) := TYP_SCHED_CHAIN_RULES(
+ *     rule_owner => 'HF_BATCH',
+ *     rule_name => 'TIMEOUT_HANDLING',
+ *     chain_name => 'DAILY_PROCESSING_CHAIN',
+ *     condition => 'REPORT_STEP.TIMEOUT',
+ *     action => 'RETRY_STEP',
+ *     comments => 'Retry report generation on timeout'
+ *   );
  * END;
  *
  * Related Objects:
  * - Element Type: TYP_SCHED_CHAIN_RULES
  * - Chains: TYP_SCHED_CHAINS, TYP_SCHED_CHAINS_SET
  * - Steps: TYP_SCHED_CHAIN_STEPS, TYP_SCHED_CHAIN_STEPS_SET
- * - Views: V_BATCH_SCHED_CHAINS, V_BATCH_SCHED_RUNNING_CHAINS
+ * - Views: V_BATCH_SCHED_CHAIN_RULES
  */
 
 

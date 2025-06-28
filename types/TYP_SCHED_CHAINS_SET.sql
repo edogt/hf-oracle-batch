@@ -20,32 +20,28 @@
  * BEGIN
  *   v_chains := TYP_SCHED_CHAINS_SET();
  *   
- *   -- Add daily chain
+ *   -- Add daily processing chain
  *   v_chains.EXTEND;
  *   v_chains(v_chains.LAST) := TYP_SCHED_CHAINS(
- *     chain_name => 'DAILY_BATCH_CHAIN',
- *     rule_set_owner => 'BATCH_MAN',
+ *     rule_set_owner => 'HF_BATCH',
  *     rule_set_name => 'DAILY_RULES',
- *     number_of_rules => 3,
- *     number_of_steps => 5,
+ *     chain_name => 'DAILY_PROCESSING_CHAIN',
+ *     max_steps => 5,
+ *     max_runs => 3,
  *     enabled => 'TRUE',
- *     evaluation_interval => INTERVAL '1' MINUTE,
- *     user_rule_set => 'TRUE',
- *     comments => 'Daily batch processing chain'
+ *     comments => 'Daily data processing and validation chain'
  *   );
  *   
- *   -- Add weekly chain
+ *   -- Add weekly reporting chain
  *   v_chains.EXTEND;
  *   v_chains(v_chains.LAST) := TYP_SCHED_CHAINS(
- *     chain_name => 'WEEKLY_BATCH_CHAIN',
- *     rule_set_owner => 'BATCH_MAN',
+ *     rule_set_owner => 'HF_BATCH',
  *     rule_set_name => 'WEEKLY_RULES',
- *     number_of_rules => 2,
- *     number_of_steps => 3,
+ *     chain_name => 'WEEKLY_REPORTING_CHAIN',
+ *     max_steps => 8,
+ *     max_runs => 2,
  *     enabled => 'TRUE',
- *     evaluation_interval => INTERVAL '5' MINUTE,
- *     user_rule_set => 'TRUE',
- *     comments => 'Weekly batch processing chain'
+ *     comments => 'Weekly report generation and distribution chain'
  *   );
  * END;
  *

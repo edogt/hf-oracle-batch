@@ -19,7 +19,7 @@
  *   v_running TYP_SCHED_RUNNING_JOBS;
  * BEGIN
  *   v_running := TYP_SCHED_RUNNING_JOBS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     job_name => 'DAILY_DATA_PROCESSING',
  *     job_subname => 'EXTRACT_PHASE',
  *     state => 'RUNNING',
@@ -40,7 +40,7 @@
  *   v_running_list := TYP_SCHED_RUNNING_JOBS_SET();
  *   v_running_list.EXTEND;
  *   v_running_list(v_running_list.LAST) := TYP_SCHED_RUNNING_JOBS(
- *     'BATCH_MAN', 'WEEKLY_REPORT_JOB', 'VALIDATION_PHASE', 'RUNNING',
+ *     'HF_BATCH', 'WEEKLY_REPORT_JOB', 'VALIDATION_PHASE', 'RUNNING',
  *     SYSTIMESTAMP - INTERVAL '0 0:45:0' DAY TO SECOND, null,
  *     INTERVAL '0 0:45:0' DAY TO SECOND, 12346, 67891, 22.8,
  *     'Validating data set 3 of 5 (60% complete)'

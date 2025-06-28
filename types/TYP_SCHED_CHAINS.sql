@@ -1,15 +1,16 @@
 /**
  * Type: TYP_SCHED_CHAINS
- * Description: Oracle Scheduler chain definition type for batch process orchestration.
- *              Represents a chain configuration with rules, steps, and evaluation settings.
+ * Description: Oracle Scheduler chain type for batch process workflow orchestration.
+ *              Defines chain structures that coordinate multiple steps and rules
+ *              for complex batch process execution and monitoring.
  *
  * Author: Eduardo Gutiérrez Tapia (edogt@hotmail.com)
  *
  * Purpose:
- *   - Define Oracle Scheduler chain configurations
- *   - Support chain-based batch process orchestration
- *   - Enable rule-based execution control
- *   - Provide chain monitoring and management capabilities
+ *   - Define Oracle Scheduler chain structures
+ *   - Support complex batch process workflow orchestration
+ *   - Enable step coordination and rule-based execution
+ *   - Provide comprehensive chain execution monitoring
  *
  * Usage Examples:
  * 
@@ -18,15 +19,13 @@
  *   v_chain TYP_SCHED_CHAINS;
  * BEGIN
  *   v_chain := TYP_SCHED_CHAINS(
- *     chain_name => 'DAILY_BATCH_CHAIN',
- *     rule_set_owner => 'BATCH_MAN',
+ *     rule_set_owner => 'HF_BATCH',
  *     rule_set_name => 'DAILY_RULES',
- *     number_of_rules => 3,
- *     number_of_steps => 5,
+ *     chain_name => 'DAILY_PROCESSING_CHAIN',
+ *     max_steps => 5,
+ *     max_runs => 3,
  *     enabled => 'TRUE',
- *     evaluation_interval => INTERVAL '1' MINUTE,
- *     user_rule_set => 'TRUE',
- *     comments => 'Daily batch processing chain'
+ *     comments => 'Daily data processing and validation chain'
  *   );
  * END;
  *
@@ -37,7 +36,7 @@
  *   v_chains := TYP_SCHED_CHAINS_SET();
  *   v_chains.EXTEND;
  *   v_chains(v_chains.LAST) := TYP_SCHED_CHAINS(
- *     'WEEKLY_CHAIN', 'BATCH_MAN', 'WEEKLY_RULES', 2, 3, 'TRUE',
+ *     'WEEKLY_CHAIN', 'HF_BATCH', 'WEEKLY_RULES', 2, 3, 'TRUE',
  *     INTERVAL '5' MINUTE, 'TRUE', 'Weekly processing chain'
  *   );
  * END;

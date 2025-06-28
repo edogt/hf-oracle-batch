@@ -20,52 +20,58 @@
  * BEGIN
  *   v_details := TYP_SCHED_JOB_RUN_DETAILS_SET();
  *   
- *   -- Add successful execution details
+ *   -- Add first job run detail
  *   v_details.EXTEND;
  *   v_details(v_details.LAST) := TYP_SCHED_JOB_RUN_DETAILS(
- *     log_id => 12345,
- *     log_date => SYSTIMESTAMP,
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     job_name => 'DAILY_DATA_PROCESSING',
  *     job_subname => 'EXTRACT_PHASE',
- *     status => 'SUCCEEDED',
- *     error# => null,
- *     req_start_date => SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND,
- *     actual_start_date => SYSTIMESTAMP - INTERVAL '0 0:30:0' DAY TO SECOND,
- *     run_duration => INTERVAL '0 0:25:30.5' DAY TO SECOND,
- *     additional_info => 'CPU: 15%, Memory: 256MB, Records: 15000'
+ *     state => 'COMPLETED',
+ *     error_code => null,
+ *     start_date => SYSTIMESTAMP - INTERVAL '0 0:45:0' DAY TO SECOND,
+ *     end_date => SYSTIMESTAMP - INTERVAL '0 0:15:0' DAY TO SECOND,
+ *     run_duration => INTERVAL '0 0:30:0' DAY TO SECOND,
+ *     session_id => 12345,
+ *     slave_process_id => 67890,
+ *     cpu_used => 28.5,
+ *     additional_info => 'Successfully processed 15000 records',
+ *     priority => 'NORMAL'
  *   );
  *   
- *   -- Add failed execution details
+ *   -- Add second job run detail
  *   v_details.EXTEND;
  *   v_details(v_details.LAST) := TYP_SCHED_JOB_RUN_DETAILS(
- *     log_id => 12346,
- *     log_date => SYSTIMESTAMP,
- *     owner => 'BATCH_MAN',
- *     job_name => 'WEEKLY_REPORT_JOB',
+ *     owner => 'HF_BATCH',
+ *     job_name => 'WEEKLY_REPORT_GENERATION',
  *     job_subname => 'VALIDATION_PHASE',
- *     status => 'FAILED',
- *     error# => 20001,
- *     req_start_date => SYSTIMESTAMP - INTERVAL '0 0:15:0' DAY TO SECOND,
- *     actual_start_date => SYSTIMESTAMP - INTERVAL '0 0:15:0' DAY TO SECOND,
- *     run_duration => INTERVAL '0 0:12:45.2' DAY TO SECOND,
- *     additional_info => 'Error: ORA-20001 - Invalid data format detected'
+ *     state => 'RUNNING',
+ *     error_code => null,
+ *     start_date => SYSTIMESTAMP - INTERVAL '0 0:20:0' DAY TO SECOND,
+ *     end_date => null,
+ *     run_duration => INTERVAL '0 0:20:0' DAY TO SECOND,
+ *     session_id => 12346,
+ *     slave_process_id => 67891,
+ *     cpu_used => 15.2,
+ *     additional_info => 'Validating data set 2 of 4 (50% complete)',
+ *     priority => 'HIGH'
  *   );
  *   
- *   -- Add long-running job details
+ *   -- Add third job run detail (failed)
  *   v_details.EXTEND;
  *   v_details(v_details.LAST) := TYP_SCHED_JOB_RUN_DETAILS(
- *     log_id => 12347,
- *     log_date => SYSTIMESTAMP,
- *     owner => 'BATCH_MAN',
- *     job_name => 'MONTHLY_CLEANUP_JOB',
+ *     owner => 'HF_BATCH',
+ *     job_name => 'MONTHLY_CLEANUP',
  *     job_subname => 'CLEANUP_PHASE',
- *     status => 'SUCCEEDED',
- *     error# => null,
- *     req_start_date => SYSTIMESTAMP - INTERVAL '0 2:0:0' DAY TO SECOND,
- *     actual_start_date => SYSTIMESTAMP - INTERVAL '0 2:0:0' DAY TO SECOND,
- *     run_duration => INTERVAL '0 1:45:20.1' DAY TO SECOND,
- *     additional_info => 'CPU: 45%, Memory: 512MB, Records: 50000, Cleaned: 1000'
+ *     state => 'FAILED',
+ *     error_code => 20001,
+ *     start_date => SYSTIMESTAMP - INTERVAL '0 1:30:0' DAY TO SECOND,
+ *     end_date => SYSTIMESTAMP - INTERVAL '0 0:45:0' DAY TO SECOND,
+ *     run_duration => INTERVAL '0 0:45:0' DAY TO SECOND,
+ *     session_id => 12347,
+ *     slave_process_id => 67892,
+ *     cpu_used => 12.8,
+ *     additional_info => 'Error: ORA-20001 - Insufficient disk space',
+ *     priority => 'LOW'
  *   );
  * END;
  *

@@ -126,7 +126,7 @@ MAX_DURATION    number := 120 ; -- Maximum activity duration in seconds
  * - BATCH_LOGGER: For detailed logging capabilities
  *
  * Security:
- * - Requires USR_BATCH_EXEC or ROLE_BATCH_MAN privileges
+ * - Requires USR_BATCH_EXEC or ROLE_HF_BATCH privileges
  * - Safe for testing environments
  * - No impact on production data or systems
  **/
@@ -138,6 +138,6 @@ procedure activity( p_name in varchar2 default 'unknown'
 END pck_batch_sim ;
 
 GRANT EXECUTE ON PCK_BATCH_SIM TO USR_BATCH_EXEC;
-GRANT EXECUTE ON PCK_BATCH_SIM TO ROLE_BATCH_MAN;
+GRANT EXECUTE ON PCK_BATCH_SIM TO ROLE_HF_BATCH;
 
 /

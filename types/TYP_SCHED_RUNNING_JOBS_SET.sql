@@ -23,7 +23,7 @@
  *   -- Add data processing job execution
  *   v_running.EXTEND;
  *   v_running(v_running.LAST) := TYP_SCHED_RUNNING_JOBS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     job_name => 'DAILY_DATA_PROCESSING',
  *     job_subname => 'EXTRACT_PHASE',
  *     state => 'RUNNING',
@@ -39,7 +39,7 @@
  *   -- Add report generation job execution
  *   v_running.EXTEND;
  *   v_running(v_running.LAST) := TYP_SCHED_RUNNING_JOBS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     job_name => 'WEEKLY_REPORT_JOB',
  *     job_subname => 'VALIDATION_PHASE',
  *     state => 'RUNNING',
@@ -55,7 +55,7 @@
  *   -- Add cleanup job execution
  *   v_running.EXTEND;
  *   v_running(v_running.LAST) := TYP_SCHED_RUNNING_JOBS(
- *     owner => 'BATCH_MAN',
+ *     owner => 'HF_BATCH',
  *     job_name => 'MONTHLY_CLEANUP_JOB',
  *     job_subname => 'CLEANUP_PHASE',
  *     state => 'RUNNING',
