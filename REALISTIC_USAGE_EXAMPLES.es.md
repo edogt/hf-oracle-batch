@@ -269,22 +269,47 @@ PCK_BATCH_UTILS.addProcessToChain(
 ### Fase 1: Desarrollo con Simulación
 
 ```sql
--- Crear actividades simuladas para desarrollo
+-- Crear actividades con acciones simuladas para desarrollo
 BEGIN
-  -- Actividad simulada para validación de datos (duración fija de 5 minutos)
-  PCK_BATCH_SIM.activity('VALIDATE_ACCOUNTING_DATA', 300);
+  -- Actividad: Validar datos contables (simulada con duración fija de 5 minutos)
+  PCK_BATCH_UTILS.createActivity(
+    code => 'VALIDATE_ACCOUNTING_DATA',
+    name => 'Validate Accounting Data',
+    action => 'PCK_BATCH_SIM.activity(''VALIDATE_ACCOUNTING_DATA'', 300);',
+    description => 'Validates the integrity and consistency of accounting data (SIMULATED)'
+  );
   
-  -- Actividad simulada para cálculo de balances (duración fija de 10 minutos)
-  PCK_BATCH_SIM.activity('CALCULATE_BALANCES', 600);
+  -- Actividad: Calcular balances (simulada con duración fija de 10 minutos)
+  PCK_BATCH_UTILS.createActivity(
+    code => 'CALCULATE_BALANCES',
+    name => 'Calculate Balances',
+    action => 'PCK_BATCH_SIM.activity(''CALCULATE_BALANCES'', 600);',
+    description => 'Calculates balances for all accounting accounts (SIMULATED)'
+  );
   
-  -- Actividad simulada para consolidación (duración fija de 15 minutos)
-  PCK_BATCH_SIM.activity('CONSOLIDATE_COMPANIES', 900);
+  -- Actividad: Consolidar empresas (simulada con duración fija de 15 minutos)
+  PCK_BATCH_UTILS.createActivity(
+    code => 'CONSOLIDATE_COMPANIES',
+    name => 'Consolidate Companies',
+    action => 'PCK_BATCH_SIM.activity(''CONSOLIDATE_COMPANIES'', 900);',
+    description => 'Consolidates data from multiple subsidiary companies (SIMULATED)'
+  );
   
-  -- Actividad simulada con duración aleatoria (entre 10-120 segundos)
-  PCK_BATCH_SIM.activity('GENERATE_BALANCE_SHEET');
+  -- Actividad: Generar balance general (simulada con duración aleatoria)
+  PCK_BATCH_UTILS.createActivity(
+    code => 'GENERATE_BALANCE_SHEET',
+    name => 'Generate Balance Sheet',
+    action => 'PCK_BATCH_SIM.activity(''GENERATE_BALANCE_SHEET'');',
+    description => 'Generates the consolidated balance sheet (SIMULATED)'
+  );
   
-  -- Actividad simulada con duración aleatoria
-  PCK_BATCH_SIM.activity('GENERATE_INCOME_STATEMENT');
+  -- Actividad: Generar estado de resultados (simulada con duración aleatoria)
+  PCK_BATCH_UTILS.createActivity(
+    code => 'GENERATE_INCOME_STATEMENT',
+    name => 'Generate Income Statement',
+    action => 'PCK_BATCH_SIM.activity(''GENERATE_INCOME_STATEMENT'');',
+    description => 'Generates the consolidated income statement (SIMULATED)'
+  );
 END;
 /
 ```

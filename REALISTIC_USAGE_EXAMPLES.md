@@ -314,22 +314,47 @@ ORDER BY level_id, execution_order;
 ### Phase 1: Development with Simulation
 
 ```sql
--- Create simulated activities for development
+-- Create activities with simulated actions for development
 BEGIN
-  -- Simulated activity for data validation (fixed duration of 5 minutes)
-  PCK_BATCH_SIM.activity('VALIDATE_ACCOUNTING_DATA', 300);
+  -- Activity: Validate accounting data (simulated with fixed duration of 5 minutes)
+  PCK_BATCH_UTILS.createActivity(
+    code => 'VALIDATE_ACCOUNTING_DATA',
+    name => 'Validate Accounting Data',
+    action => 'PCK_BATCH_SIM.activity(''VALIDATE_ACCOUNTING_DATA'', 300);',
+    description => 'Validates the integrity and consistency of accounting data (SIMULATED)'
+  );
   
-  -- Simulated activity for balance calculation (fixed duration of 10 minutes)
-  PCK_BATCH_SIM.activity('CALCULATE_BALANCES', 600);
+  -- Activity: Calculate balances (simulated with fixed duration of 10 minutes)
+  PCK_BATCH_UTILS.createActivity(
+    code => 'CALCULATE_BALANCES',
+    name => 'Calculate Balances',
+    action => 'PCK_BATCH_SIM.activity(''CALCULATE_BALANCES'', 600);',
+    description => 'Calculates balances for all accounting accounts (SIMULATED)'
+  );
   
-  -- Simulated activity for consolidation (fixed duration of 15 minutes)
-  PCK_BATCH_SIM.activity('CONSOLIDATE_COMPANIES', 900);
+  -- Activity: Consolidate companies (simulated with fixed duration of 15 minutes)
+  PCK_BATCH_UTILS.createActivity(
+    code => 'CONSOLIDATE_COMPANIES',
+    name => 'Consolidate Companies',
+    action => 'PCK_BATCH_SIM.activity(''CONSOLIDATE_COMPANIES'', 900);',
+    description => 'Consolidates data from multiple subsidiary companies (SIMULATED)'
+  );
   
-  -- Simulated activity with random duration (between 10-120 seconds)
-  PCK_BATCH_SIM.activity('GENERATE_BALANCE_SHEET');
+  -- Activity: Generate balance sheet (simulated with random duration)
+  PCK_BATCH_UTILS.createActivity(
+    code => 'GENERATE_BALANCE_SHEET',
+    name => 'Generate Balance Sheet',
+    action => 'PCK_BATCH_SIM.activity(''GENERATE_BALANCE_SHEET'');',
+    description => 'Generates the consolidated balance sheet (SIMULATED)'
+  );
   
-  -- Simulated activity with random duration
-  PCK_BATCH_SIM.activity('GENERATE_INCOME_STATEMENT');
+  -- Activity: Generate income statement (simulated with random duration)
+  PCK_BATCH_UTILS.createActivity(
+    code => 'GENERATE_INCOME_STATEMENT',
+    name => 'Generate Income Statement',
+    action => 'PCK_BATCH_SIM.activity(''GENERATE_INCOME_STATEMENT'');',
+    description => 'Generates the consolidated income statement (SIMULATED)'
+  );
 END;
 /
 ```
