@@ -28,4 +28,17 @@ ARTICULO_LINKEDIN_*.md
 # Scripts de trabajo
 generar_estado_documentacion.py
 improvements_*.sql
-temp_*.sql 
+temp_*.sql
+
+# Ignorar archivos de PowerPoint
+*.ppt
+*.pptx
+
+# Ignorar documento generado para Gemini
+HF_ORACLE_BATCH_GEMINI_DOC.md
+
+# Ignorar análisis de HF Oracle Batch
+analisis_HF_OBATCH.md
+
+# Ignorar archivo de aspectos de revisión
+aspectos_revision_HF_OBATCH.md 
