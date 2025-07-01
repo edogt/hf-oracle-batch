@@ -1,0 +1,14 @@
+# HF Oracle Batch - Generic .gitignore
+
+# TEMPORARY FILES
+*.tmp
+*.log
+*.bak
+
+# DEVELOPMENT FILES
+.vscode/
+.idea/
+*.swp
+
+# WORK DIRECTORY
+work/
