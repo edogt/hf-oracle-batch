@@ -51,27 +51,27 @@ PROMPT
 -- =============================================================================
 PROMPT Creating PL/SQL types...
 
-@types/TYP_SCHED_CHAIN_RULES.sql
-@types/TYP_SCHED_CHAIN_RULES_SET.sql
-@types/TYP_SCHED_CHAIN_STEPS.sql
-@types/TYP_SCHED_CHAIN_STEPS_SET.sql
-@types/TYP_SCHED_CHAINS.sql
-@types/TYP_SCHED_CHAINS_SET.sql
-@types/TYP_SCHED_JOBS.sql
-@types/TYP_SCHED_JOBS_SET.sql
-@types/TYP_SCHED_JOB_DESTS.sql
-@types/TYP_SCHED_JOB_DESTS_SET.sql
-@types/TYP_SCHED_JOB_LOG.sql
-@types/TYP_SCHED_JOB_LOG_SET.sql
-@types/TYP_SCHED_JOB_RUN_DETAILS.sql
-@types/TYP_SCHED_JOB_RUN_DETAILS_SET.sql
-@types/TYP_SCHED_PROGRAMS.sql
-@types/TYP_SCHED_PROGRAMS_SET.sql
-@types/TYP_SCHED_RUNNING_CHAINS.sql
-@types/TYP_SCHED_RUNNING_CHAINS_SET.sql
-@types/TYP_SCHED_RUNNING_JOBS.sql
-@types/TYP_SCHED_RUNNING_JOBS_SET.sql
-@types/BATCH_LOGGER.sql
+@../types/TYP_SCHED_CHAIN_RULES.sql
+@../types/TYP_SCHED_CHAIN_RULES_SET.sql
+@../types/TYP_SCHED_CHAIN_STEPS.sql
+@../types/TYP_SCHED_CHAIN_STEPS_SET.sql
+@../types/TYP_SCHED_CHAINS.sql
+@../types/TYP_SCHED_CHAINS_SET.sql
+@../types/TYP_SCHED_JOBS.sql
+@../types/TYP_SCHED_JOBS_SET.sql
+@../types/TYP_SCHED_JOB_DESTS.sql
+@../types/TYP_SCHED_JOB_DESTS_SET.sql
+@../types/TYP_SCHED_JOB_LOG.sql
+@../types/TYP_SCHED_JOB_LOG_SET.sql
+@../types/TYP_SCHED_JOB_RUN_DETAILS.sql
+@../types/TYP_SCHED_JOB_RUN_DETAILS_SET.sql
+@../types/TYP_SCHED_PROGRAMS.sql
+@../types/TYP_SCHED_PROGRAMS_SET.sql
+@../types/TYP_SCHED_RUNNING_CHAINS.sql
+@../types/TYP_SCHED_RUNNING_CHAINS_SET.sql
+@../types/TYP_SCHED_RUNNING_JOBS.sql
+@../types/TYP_SCHED_RUNNING_JOBS_SET.sql
+@../types/BATCH_LOGGER.sql
 
 PROMPT Types creation completed.
 PROMPT
@@ -81,7 +81,7 @@ PROMPT
 -- =============================================================================
 PROMPT Creating sequences...
 
-@sequences/BATCH_GLOBAL_ID_SEQ.sql
+@../sequences/BATCH_GLOBAL_ID_SEQ.sql
 
 PROMPT Sequences creation completed.
 PROMPT
@@ -93,45 +93,45 @@ PROMPT Creating tables in dependency order...
 
 -- Base tables (no foreign key dependencies)
 PROMPT Creating base tables...
-@tables/BATCH_COMPANIES/00_deploy.sql
+@../tables/BATCH_COMPANIES/00_deploy.sql
 
 -- Tables with foreign key to BATCH_COMPANIES
 PROMPT Creating company-dependent tables...
-@tables/BATCH_CHAINS/00_deploy.sql
-@tables/BATCH_PROCESSES/00_deploy.sql
-@tables/BATCH_ACTIVITIES/00_deploy.sql
-@tables/BATCH_COMPANY_PARAMETERS/00_deploy.sql
+@../tables/BATCH_CHAINS/00_deploy.sql
+@../tables/BATCH_PROCESSES/00_deploy.sql
+@../tables/BATCH_ACTIVITIES/00_deploy.sql
+@../tables/BATCH_COMPANY_PARAMETERS/00_deploy.sql
 
 -- Tables with foreign key to BATCH_CHAINS
 PROMPT Creating chain-dependent tables...
-@tables/BATCH_CHAIN_PROCESSES/00_deploy.sql
-@tables/BATCH_CHAIN_EXECUTIONS/00_deploy.sql
+@../tables/BATCH_CHAIN_PROCESSES/00_deploy.sql
+@../tables/BATCH_CHAIN_EXECUTIONS/00_deploy.sql
 
 -- Tables with foreign key to BATCH_PROCESSES
 PROMPT Creating process-dependent tables...
-@tables/BATCH_PROCESS_ACTIVITIES/00_deploy.sql
-@tables/BATCH_PROCESS_EXECUTIONS/00_deploy.sql
+@../tables/BATCH_PROCESS_ACTIVITIES/00_deploy.sql
+@../tables/BATCH_PROCESS_EXECUTIONS/00_deploy.sql
 
 -- Tables with foreign key to BATCH_ACTIVITIES
 PROMPT Creating activity-dependent tables...
-@tables/BATCH_ACTIVITY_PARAMETERS/00_deploy.sql
+@../tables/BATCH_ACTIVITY_PARAMETERS/00_deploy.sql
 
 -- Tables with foreign key to BATCH_PROCESS_ACTIVITIES
 PROMPT Creating process-activity-dependent tables...
-@tables/BATCH_PROC_ACTIV_PARAM_VALUES/00_deploy.sql
+@../tables/BATCH_PROC_ACTIV_PARAM_VALUES/00_deploy.sql
 
 -- Tables with foreign key to BATCH_PROCESS_EXECUTIONS and BATCH_ACTIVITIES
 PROMPT Creating execution-dependent tables...
-@tables/BATCH_ACTIVITY_EXECUTIONS/00_deploy.sql
+@../tables/BATCH_ACTIVITY_EXECUTIONS/00_deploy.sql
 
 -- Tables with foreign key to BATCH_ACTIVITY_EXECUTIONS
 PROMPT Creating activity-execution-dependent tables...
-@tables/BATCH_ACTIV_EXEC_PARAM_VALUES/00_deploy.sql
-@tables/BATCH_ACTIVITY_OUTPUTS/00_deploy.sql
+@../tables/BATCH_ACTIV_EXEC_PARAM_VALUES/00_deploy.sql
+@../tables/BATCH_ACTIVITY_OUTPUTS/00_deploy.sql
 
 -- Log table (depends on all execution tables)
 PROMPT Creating logging table...
-@tables/BATCH_SIMPLE_LOG/00_deploy.sql
+@../tables/BATCH_SIMPLE_LOG/00_deploy.sql
 
 PROMPT Tables creation completed.
 PROMPT
@@ -143,36 +143,36 @@ PROMPT Creating PL/SQL packages...
 
 -- Core packages
 PROMPT Creating core packages...
-@packages/core/PCK_BATCH_MANAGER_SPEC.sql
-@packages/core/PCK_BATCH_MANAGER_BODY.sql
-@packages/core/PCK_BATCH_MGR_CHAINS_SPEC.sql
-@packages/core/PCK_BATCH_MGR_CHAINS_BODY.sql
-@packages/core/PCK_BATCH_MGR_PROCESSES_SPEC.sql
-@packages/core/PCK_BATCH_MGR_PROCESSES_BODY.sql
-@packages/core/PCK_BATCH_MGR_ACTIVITIES_SPEC.sql
-@packages/core/PCK_BATCH_MGR_ACTIVITIES_BODY.sql
-@packages/core/PCK_BATCH_MGR_LOG_SPEC.sql
-@packages/core/PCK_BATCH_MGR_LOG_BODY.sql
-@packages/core/PCK_BATCH_MGR_REPORT_SPEC.sql
-@packages/core/PCK_BATCH_MGR_REPORT_BODY.sql
-@packages/core/PCK_BATCH_COMPANIES_SPEC.sql
-@packages/core/PCK_BATCH_COMPANIES_BODY.sql
-@packages/core/PCK_BATCH_CHECK_SPEC.sql
-@packages/core/PCK_BATCH_CHECK_BODY.sql
-@packages/core/PCK_BATCH_DSI_SPEC.sql
-@packages/core/PCK_BATCH_DSI_BODY.sql
+@../packages/core/PCK_BATCH_MANAGER_SPEC.sql
+@../packages/core/PCK_BATCH_MANAGER_BODY.sql
+@../packages/core/PCK_BATCH_MGR_CHAINS_SPEC.sql
+@../packages/core/PCK_BATCH_MGR_CHAINS_BODY.sql
+@../packages/core/PCK_BATCH_MGR_PROCESSES_SPEC.sql
+@../packages/core/PCK_BATCH_MGR_PROCESSES_BODY.sql
+@../packages/core/PCK_BATCH_MGR_ACTIVITIES_SPEC.sql
+@../packages/core/PCK_BATCH_MGR_ACTIVITIES_BODY.sql
+@../packages/core/PCK_BATCH_MGR_LOG_SPEC.sql
+@../packages/core/PCK_BATCH_MGR_LOG_BODY.sql
+@../packages/core/PCK_BATCH_MGR_REPORT_SPEC.sql
+@../packages/core/PCK_BATCH_MGR_REPORT_BODY.sql
+@../packages/core/PCK_BATCH_COMPANIES_SPEC.sql
+@../packages/core/PCK_BATCH_COMPANIES_BODY.sql
+@../packages/core/PCK_BATCH_CHECK_SPEC.sql
+@../packages/core/PCK_BATCH_CHECK_BODY.sql
+@../packages/core/PCK_BATCH_DSI_SPEC.sql
+@../packages/core/PCK_BATCH_DSI_BODY.sql
 
 -- Monitoring packages
 PROMPT Creating monitoring packages...
-@packages/monitoring/PCK_BATCH_MONITOR_SPEC.sql
-@packages/monitoring/PCK_BATCH_MONITOR_BODY.sql
+@../packages/monitoring/PCK_BATCH_MONITOR_SPEC.sql
+@../packages/monitoring/PCK_BATCH_MONITOR_BODY.sql
 
 -- Utility packages
 PROMPT Creating utility packages...
-@packages/utils/PCK_BATCH_TOOLS_SPEC.sql
-@packages/utils/PCK_BATCH_TOOLS_BODY.sql
-@packages/utils/PCK_BATCH_UTILS_SPEC.sql
-@packages/utils/PCK_BATCH_UTILS_BODY.sql
+@../packages/utils/PCK_BATCH_TOOLS_SPEC.sql
+@../packages/utils/PCK_BATCH_TOOLS_BODY.sql
+@../packages/utils/PCK_BATCH_UTILS_SPEC.sql
+@../packages/utils/PCK_BATCH_UTILS_BODY.sql
 
 PROMPT Packages creation completed.
 PROMPT
@@ -182,30 +182,30 @@ PROMPT
 -- =============================================================================
 PROMPT Creating monitoring and reporting views...
 
-@views/V_BATCH_ACTIVITY_EXECUTIONS.sql
-@views/V_BATCH_ACTIVS_LAST_EXECS.sql
-@views/V_BATCH_CHAIN_EXECS.sql
-@views/V_BATCH_CHAIN_EXECUTIONS.sql
-@views/V_BATCH_CHAIN_LAST_EXECS_VIEW.sql
-@views/V_BATCH_DEFINITION_HIERARCHY.sql
-@views/V_BATCH_LAST_SIMPLE_LOG.sql
-@views/V_BATCH_PROCESS_EXECUTIONS.sql
-@views/V_BATCH_PROCS_LAST_EXECS.sql
-@views/V_BATCH_RUNNING_ACTIVITIES.sql
-@views/V_BATCH_RUNNING_CHAINS.sql
-@views/V_BATCH_RUNNING_CHAINS2.sql
-@views/V_BATCH_RUNNING_PROCESSES.sql
-@views/V_BATCH_SCHED_CHAINS.sql
-@views/V_BATCH_SCHED_CHAIN_RULES.sql
-@views/V_BATCH_SCHED_CHAIN_STEPS.sql
-@views/V_BATCH_SCHED_JOBS.sql
-@views/V_BATCH_SCHED_JOB_DESTS.sql
-@views/V_BATCH_SCHED_JOB_LOG.sql
-@views/V_BATCH_SCHED_JOB_RUN_DETAILS.sql
-@views/V_BATCH_SCHED_PROGRAMS.sql
-@views/V_BATCH_SCHED_RUNNING_CHAINS.sql
-@views/V_BATCH_SCHED_RUNNING_JOBS.sql
-@views/V_BATCH_SIMPLE_LOG.sql
+@../views/V_BATCH_ACTIVITY_EXECUTIONS.sql
+@../views/V_BATCH_ACTIVS_LAST_EXECS.sql
+@../views/V_BATCH_CHAIN_EXECS.sql
+@../views/V_BATCH_CHAIN_EXECUTIONS.sql
+@../views/V_BATCH_CHAIN_LAST_EXECS_VIEW.sql
+@../views/V_BATCH_DEFINITION_HIERARCHY.sql
+@../views/V_BATCH_LAST_SIMPLE_LOG.sql
+@../views/V_BATCH_PROCESS_EXECUTIONS.sql
+@../views/V_BATCH_PROCS_LAST_EXECS.sql
+@../views/V_BATCH_RUNNING_ACTIVITIES.sql
+@../views/V_BATCH_RUNNING_CHAINS.sql
+@../views/V_BATCH_RUNNING_CHAINS2.sql
+@../views/V_BATCH_RUNNING_PROCESSES.sql
+@../views/V_BATCH_SCHED_CHAINS.sql
+@../views/V_BATCH_SCHED_CHAIN_RULES.sql
+@../views/V_BATCH_SCHED_CHAIN_STEPS.sql
+@../views/V_BATCH_SCHED_JOBS.sql
+@../views/V_BATCH_SCHED_JOB_DESTS.sql
+@../views/V_BATCH_SCHED_JOB_LOG.sql
+@../views/V_BATCH_SCHED_JOB_RUN_DETAILS.sql
+@../views/V_BATCH_SCHED_PROGRAMS.sql
+@../views/V_BATCH_SCHED_RUNNING_CHAINS.sql
+@../views/V_BATCH_SCHED_RUNNING_JOBS.sql
+@../views/V_BATCH_SIMPLE_LOG.sql
 
 PROMPT Views creation completed.
 PROMPT
@@ -215,7 +215,7 @@ PROMPT
 -- =============================================================================
 PROMPT Creating standalone functions...
 
-@functions/GETJOBSDESTS.sql
+@../functions/GETJOBSDESTS.sql
 
 PROMPT Functions creation completed.
 PROMPT
